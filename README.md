@@ -4,7 +4,6 @@ Site autonome de la boutique du Haut Conseil : catalogue commun, marques, vitrin
 
 - Site : https://jean-aristid.github.io/BOUTIQUE_HCFCED/
 - Dépôt : https://github.com/Jean-Aristid/BOUTIQUE_HCFCED
-- Association : https://jean-aristid.github.io/SITE_HCFCED/
 
 ## Fichiers à modifier
 
@@ -42,8 +41,8 @@ https://jean-aristid.github.io/BOUTIQUE_HCFCED/index.html?boutique=Amina%20Cr%C3
 
 Ce dossier est un dépôt indépendant relié à `BOUTIQUE_HCFCED`. Un push sur `main` déclenche `.github/workflows/pages.yml`, qui vérifie les interactions et publie uniquement les fichiers HTML et `assets/` après les avoir rassemblés dans `_public/`.
 
-Dans **Settings → Pages**, choisir **GitHub Actions**. Le site ne dépend d’aucun fichier du projet associatif. L’adhésion est accessible par un lien vers le site de l’association.
+Dans **Settings → Pages**, choisir **GitHub Actions**. Le site ne dépend d’aucun fichier du projet associatif. Aucun lien ne renvoie vers le site de l’association.
 
-Pour changer de domaine, modifier les liens externes dans `index.html` et les liens vers la boutique dans le projet associatif.
+Le déploiement et la navigation de cette boutique sont entièrement autonomes.
 
 Les marques, produits et prix sont fictifs. Aucun paiement, compte vendeuse ou enregistrement de commande n’est activé.

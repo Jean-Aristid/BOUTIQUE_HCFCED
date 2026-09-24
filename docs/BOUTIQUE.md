@@ -8,7 +8,7 @@ La boutique du Haut Conseil est un site à part entière, indépendant du site d
 - Une source de données pour le catalogue et toutes les vitrines.
 - Sélection d’une marque par le paramètre `boutique` de l’URL.
 - Filtres, recherche et panier local en mémoire, réinitialisé au changement de page.
-- Liens externes vers le Haut Conseil et son parcours d’adhésion.
+- Aucune redirection vers le site associatif ou son parcours d’adhésion.
 - Publication GitHub Pages indépendante du site associatif.
 
 ## À préciser pour une ouverture réelle
