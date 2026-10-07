@@ -24,6 +24,7 @@ function setFilter(id) {
   $('#subcategory-select').value = '';
   $('#subcategory-select').disabled = !category;
   renderProducts();
+  renderSellers();
 }
 function filteredProducts() {
   const query = normalize($('#search').value);
@@ -31,7 +32,7 @@ function filteredProducts() {
 }
 function renderProducts() {
   const products = filteredProducts();
-  $('#products').innerHTML = products.map(p => `<article class="product"><div class="visual ${escapeHTML(p.v)}"><span>${escapeHTML(categoryById(p.cat)?.name)}</span></div><div class="product-info"><div class="seller"><a href="${escapeHTML(shopUrl(sellerFor(p)))}">${escapeHTML(sellerFor(p).name)}</a></div><h3>${escapeHTML(p.name)}</h3><p class="offer-meta">${p.type === 'service' ? 'Prestation' : 'Produit'} · ${escapeHTML(p.sub)}</p><div class="price-row"><span class="price">${escapeHTML(priceLabel(p))}</span></div><button class="offer-button" data-details="${escapeHTML(p.id)}">${p.type === 'service' ? 'Voir la prestation' : 'Voir le produit'} →</button>${p.type === 'product' ? `<button class="offer-button secondary" data-add="${escapeHTML(p.id)}">Ajouter au panier</button>` : ''}</div></article>`).join('');
+  $('#products').innerHTML = products.map(p => `<article class="product"><div class="visual ${escapeHTML(p.v)}">${safePhoto(p.photo)?`<img class="product-photo" src="${escapeHTML(safePhoto(p.photo))}" alt="${escapeHTML(p.name)}" loading="lazy">`: ''}<span>${escapeHTML(categoryById(p.cat)?.name)}</span></div><div class="product-info"><div class="seller"><a href="${escapeHTML(shopUrl(sellerFor(p)))}">${escapeHTML(sellerFor(p).name)}</a></div><h3>${escapeHTML(p.name)}</h3><p class="offer-meta">${p.type === 'service' ? 'Prestation' : 'Produit'} · ${escapeHTML(p.sub)}</p><div class="price-row"><span class="price">${escapeHTML(priceLabel(p))}</span></div><button class="offer-button" data-details="${escapeHTML(p.id)}">${p.type === 'service' ? 'Voir la prestation' : 'Voir le produit'} →</button>${p.type === 'product' ? `<button class="offer-button secondary" data-add="${escapeHTML(p.id)}">Ajouter au panier</button>` : ''}</div></article>`).join('');
   $('#empty').hidden = products.length > 0;
   $('#empty').style.display = products.length ? 'none' : 'block';
   $('#result-count').textContent = `${products.length} offre${products.length > 1 ? 's' : ''}`;
@@ -56,7 +57,7 @@ function showToast(text) {$('#toast').textContent = text;$('#toast').classList.a
 function openDetails(id) {
   const p = market.products.find(p => p.id === id); if (!p) return;
   const seller = sellerFor(p);
-  $('#detail-content').innerHTML = `<p class="eyebrow">${p.type === 'service' ? 'Prestation' : 'Produit'}</p><h2 id="detail-title">${escapeHTML(p.name)}</h2><a class="shop-link" href="${escapeHTML(shopUrl(seller))}">${escapeHTML(seller.name)}</a><p>${escapeHTML(p.description)}</p><p><strong>${escapeHTML(priceLabel(p))}</strong></p><p>${p.type === 'service' ? 'Modalités, disponibilité et devis à confirmer avec la prestataire. Aucune réservation n’est effectuée ici.' : 'Livraison en France : ' + escapeHTML(seller.deliveryFrance) + '<br>International : ' + escapeHTML(seller.deliveryInternational)}</p>${p.type === 'service' ? '<label for="request-text">Préparer votre demande (aucun envoi)</label><textarea id="request-text" rows="4" placeholder="Décrivez votre besoin, les dates et le lieu souhaités."></textarea><button class="offer-button" id="download-request">Télécharger ma demande</button><p>Ce document reste sur votre appareil. Il ne sera pas envoyé à la prestataire.</p>' : `<button class="offer-button" data-add="${escapeHTML(p.id)}">Ajouter au panier de démonstration</button>`}`;
+  $('#detail-content').innerHTML = `<p class="eyebrow">${p.type === 'service' ? 'Prestation' : 'Produit'}</p><h2 id="detail-title">${escapeHTML(p.name)}</h2><a class="shop-link" href="${escapeHTML(shopUrl(seller))}">${escapeHTML(seller.name)}</a>${safePhoto(p.photo)?`<img class="detail-photo" src="${escapeHTML(safePhoto(p.photo))}" alt="${escapeHTML(p.name)}">`:''}<p>${escapeHTML(p.description)}</p><p><strong>${escapeHTML(priceLabel(p))}</strong></p><p>${p.type === 'service' ? 'Modalités, disponibilité et devis à confirmer avec la prestataire. Aucune réservation n’est effectuée ici.' : 'Livraison en France : ' + escapeHTML(seller.deliveryFrance) + '<br>International : ' + escapeHTML(seller.deliveryInternational)}</p>${p.type === 'service' ? '<label for="request-text">Préparer votre demande (aucun envoi)</label><textarea id="request-text" rows="4" placeholder="Décrivez votre besoin, les dates et le lieu souhaités."></textarea><button class="offer-button" id="download-request">Télécharger ma demande</button><p>Ce document reste sur votre appareil. Il ne sera pas envoyé à la prestataire.</p>' : `<button class="offer-button" data-add="${escapeHTML(p.id)}">Ajouter au panier de démonstration</button>`}`;
   $('#detail-dialog').showModal();
   if (p.type === 'service') $('#download-request').onclick = () => downloadText(`Demande pour ${p.name}\nPrestataire : ${seller.name}\n\n${$('#request-text').value}`, 'demande-prestation.txt');
 }
@@ -84,7 +85,11 @@ $('#category-select').addEventListener('change',()=>setFilter($('#category-selec
 $('#subcategory-select').addEventListener('change',renderProducts);
 $('#type-select').addEventListener('change',renderProducts);
 $('#reset-filters').addEventListener('click',()=>{$('#search').value='';$('#type-select').value='';setFilter('all');});
-$('#seller-list').innerHTML=market.sellers.map(s=>`<article class="seller-card">${logo(s)}<div><small>${badge(s)}</small><h3>${escapeHTML(s.name)}</h3><p>${escapeHTML(s.description)}</p><a class="shop-link" href="${escapeHTML(shopUrl(s))}">Voir sa boutique →</a></div></article>`).join('');
+function renderSellers(){
+const sellers=market.sellers.filter(s=>active==='all'||s.category===active||market.products.some(p=>p.sellerId===s.id&&p.cat===active));
+$('#seller-category-status').textContent=active==='all'?'Toutes les activités':categoryById(active).name+' : '+sellers.length+' boutique(s)';
+$('#seller-list').innerHTML=sellers.length?sellers.map(s=>`<article class="seller-card">${logo(s)}<div><small>${badge(s)}</small><h3>${escapeHTML(s.name)}</h3><p>${escapeHTML(s.description)}</p><a class="shop-link" href="${escapeHTML(shopUrl(s))}">Voir sa boutique →</a></div></article>`).join(''):'<p>Aucune boutique dans cette catégorie pour le moment. Les entrepreneures peuvent préparer leur vitrine depuis l’espace vendeuse.</p>';
+}
 document.addEventListener('click',event=>{
   const button=event.target.closest('button');if(!button)return;
   if(button.dataset.category){setFilter(button.dataset.category);if(button.dataset.sub!==undefined){$('#subcategory-select').value=categoryById(active).items[Number(button.dataset.sub)];renderProducts();}location.hash='catalogue';}

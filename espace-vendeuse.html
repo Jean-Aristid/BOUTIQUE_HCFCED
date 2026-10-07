@@ -13,11 +13,13 @@
   <main class="wrap workspace">
     <noscript><p class="notice">Activez JavaScript pour préparer et enregistrer votre brouillon local.</p></noscript>
     <a class="shop-link" href="index.html">← Retour à la boutique</a>
-    <h1>Votre talent mérite sa vitrine.</h1><p>Membre du Haut Conseil ou entrepreneure indépendante : préparez votre présentation et votre catalogue sous une identité commune.</p>
+    <h1>Espace vendeuse</h1><p>Membre du Haut Conseil ou entrepreneure indépendante : préparez votre présentation et votre catalogue sous une identité commune.</p>
+    <section id="activites"><h2>1. Choisissez votre catégorie</h2><p>Les catégories rassemblent plusieurs entrepreneures. Votre marque aura sa propre mini-boutique. Vous pourrez proposer des offres dans plusieurs catégories.</p><div class="category-grid" id="seller-categories"></div><p id="selected-activity" role="status"></p></section>
+    <section id="inscription"><h2>2. Inscription et connexion</h2><p>Les inscriptions ne sont pas encore ouvertes. Vous pouvez dès maintenant préparer un brouillon, sans créer de compte. La création de compte et la publication seront disponibles après la mise en place de l’hébergement.</p><a class="btn btn-gold" href="#entreprise">Continuer avec un brouillon local →</a></section>
     <p class="notice">Cet espace enregistre un brouillon uniquement dans ce navigateur, sur cet appareil. Ce n’est pas un espace privé authentifié. Rien n’est envoyé ni publié pour les autres visiteurs. Utilisez des informations professionnelles destinées à être publiques et exportez votre brouillon pour le conserver.</p>
-    <nav aria-label="Espace vendeuse"><a href="#entreprise">Mon entreprise</a><a href="#offres">Mes offres</a><a href="#commandes">Mes commandes</a><a href="#avis">Mes avis</a></nav>
+    <nav aria-label="Espace vendeuse"><a href="#activites">Ma catégorie</a><a href="#inscription">Inscription</a><a href="#entreprise">Mon entreprise</a><a href="#offres">Mes offres</a><a href="#commandes">Mes commandes</a><a href="#avis">Mes avis</a></nav>
     <p id="workspace-status" role="status" aria-live="polite"></p>
-    <section id="entreprise"><h2>1. Présenter mon entreprise</h2><form id="profile-form"><div class="form-grid">
+    <section id="entreprise"><h2>3. Présenter mon entreprise</h2><form id="profile-form"><div class="form-grid">
       <label>Nom de l’entreprise *<input name="name" required maxlength="100" autocomplete="organization"></label>
       <label>Votre situation *<select name="membership"><option value="member">Membre du Haut Conseil</option><option value="external">Entrepreneure non adhérente</option></select></label>
       <label class="wide">Présentation *<textarea name="description" required maxlength="1200" rows="4"></textarea></label>
@@ -27,14 +29,16 @@
       <label>Livraison en France<textarea name="deliveryFrance" rows="3" maxlength="600" placeholder="Zones, délais, tarifs, retrait éventuel…"></textarea></label>
       <label>Livraison à l’international<textarea name="deliveryInternational" rows="3" maxlength="600" placeholder="Pays desservis, délais, tarifs ou non disponible…"></textarea></label>
     </div><div class="actions"><button class="btn btn-gold">Enregistrer mon brouillon</button><a id="preview-link" href="index.html?boutique=local#catalogue" class="shop-link" hidden>Voir ma mini-boutique locale →</a></div></form></section>
-    <section id="offres"><h2>2. Gérer mes produits et prestations</h2><p>Enregistrez d’abord votre entreprise, puis ajoutez vos offres. Les illustrations restent celles de la maquette.</p><form id="offer-form"><input type="hidden" name="id"><div class="form-grid">
+    <section id="offres"><h2>4. Gérer mes produits et prestations</h2><p>Enregistrez d’abord votre entreprise, puis ajoutez vos offres. Ajoutez une photo de votre produit ou de votre prestation pour personnaliser votre vitrine.</p><form id="offer-form"><input type="hidden" name="id"><div class="form-grid">
       <label>Nom de l’offre *<input name="name" required maxlength="120"></label><label>Type<select name="type"><option value="product">Produit</option><option value="service">Prestation de service</option></select></label>
       <label>Catégorie<select name="cat" id="offer-category"></select></label><label>Sous-catégorie<select name="sub" id="offer-subcategory"></select></label>
       <label>Prix en euros *<input name="price" type="number" min="0" max="1000000" step="0.01" required><small>Pour une prestation sur devis, laissez le prix vide.</small></label><label>Unité du tarif<input name="unit" maxlength="60" placeholder="Ex. la séance, la journée, la pièce"></label>
       <label class="wide">Description *<textarea name="description" required maxlength="1500" rows="4"></textarea></label>
+      <label class="wide">Photo de l’offre (JPEG, PNG ou WebP, 500 Ko maximum)<input id="offer-photo" type="file" accept="image/jpeg,image/png,image/webp"></label><div class="wide"><img id="photo-preview" class="offer-photo-preview" alt="Aperçu de l’offre" hidden><button type="button" id="remove-photo" class="filter">Retirer la photo</button></div>
     </div><div class="actions"><button class="btn btn-gold">Enregistrer l’offre</button><button id="cancel-edit" type="button" class="filter">Nouvelle offre</button></div></form><div id="own-offers"></div></section>
-    <section id="commandes"><h2>3. Mes commandes</h2><p>Aucune commande reçue. Le paiement et la prise de commandes ne sont pas encore ouverts.</p><p>Le futur espace permettra de suivre les articles, la cliente, le statut et la livraison de chaque commande. Aucun paiement ni changement de statut réel n’est possible dans cet aperçu.</p></section>
-    <section id="avis"><h2>4. Les avis de mes clientes</h2><p>Aucun avis pour le moment. Les avis liés aux achats seront disponibles lorsque les commandes seront activées.</p></section>
+    <section id="publication"><h2>5. Aperçu et publication</h2><p>Consultez votre mini-boutique avec le lien d’aperçu après avoir enregistré votre entreprise. Cet aperçu est visible uniquement dans ce navigateur. La publication publique n’est pas encore disponible.</p><button class="btn" disabled>Publication non disponible</button></section>
+    <section id="commandes"><h2>Mes commandes</h2><p>Aucune commande reçue. Le paiement et la prise de commandes ne sont pas encore ouverts.</p><p>Le futur espace permettra de suivre les articles, la cliente, le statut et la livraison de chaque commande. Aucun paiement ni changement de statut réel n’est possible dans cet aperçu.</p></section>
+    <section id="avis"><h2>Les avis de mes clientes</h2><p>Aucun avis pour le moment. Les avis liés aux achats seront disponibles lorsque les commandes seront activées.</p></section>
     <section><h2>Conserver mon travail</h2><p>L’export contient votre présentation, votre logo et vos offres. Il permet de transmettre le brouillon à l’équipe lors de la mise en place de la plateforme.</p><button id="export-workspace" class="btn btn-gold">Exporter mon brouillon JSON</button></section>
   </main>
 </body>

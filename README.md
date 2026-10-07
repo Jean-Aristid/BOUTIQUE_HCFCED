@@ -1,6 +1,6 @@
 # Boutique du Haut Conseil — HCFCED
 
-Plateforme multivendeuse de démonstration, ouverte aux membres du Haut Conseil et aux entrepreneures non adhérentes. Dix catégories, 66 sous-catégories, produits et prestations, mini-boutiques et espace de préparation vendeuse.
+Plateforme multivendeuse de démonstration, ouverte aux membres du Haut Conseil et aux entrepreneures non adhérentes. Dix catégories, 67 sous-catégories, produits et prestations, mini-boutiques et espace de préparation vendeuse.
 
 - Site : https://jean-aristid.github.io/BOUTIQUE_HCFCED/
 - Dépôt : https://github.com/Jean-Aristid/BOUTIQUE_HCFCED
@@ -54,3 +54,6 @@ Dans **Settings → Pages**, choisir **GitHub Actions**. Le site ne dépend d’
 Le déploiement et la navigation de cette boutique sont entièrement autonomes.
 
 Les exemples couvrent les dix univers avec 13 offres et 11 profils fictifs. Authentification, publication distante par les vendeuses, paiements, commandes réelles, avis vérifiés et calcul des frais de livraison restent à raccorder à un service de commerce. Les rubriques commandes et avis affichent leur état indisponible sans fabriquer d’activité.
+
+
+Réorganisation du 7 octobre 2026 : catégories dès l’entrée vendeuse, Boissons séparées, Gastronomie et traiteur, photo par offre. Voir `docs/MODIFICATIONS_VOCAUX_2026-10-07.md` (depuis la racine). Comptes et publication non activés : hébergement à choisir.

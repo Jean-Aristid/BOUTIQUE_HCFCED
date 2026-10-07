@@ -13,8 +13,8 @@ function environment(search='',stored=null){
   return {document,context,run:code=>vm.runInContext(code,context)};
 }
 const inspect=environment();inspect.run(base);
-assert.equal(inspect.run('catalogCategories.length'),10);
-assert.equal(inspect.run('catalogCategories.reduce((sum,c)=>sum+c.items.length,0)'),66);
+assert.equal(inspect.run('catalogCategories.length'),12);
+assert.equal(inspect.run('catalogCategories.reduce((sum,c)=>sum+c.items.length,0)'),67);
 assert.equal(inspect.run('new Set(data.map(p=>p.cat)).size'),10);
 assert(inspect.run('data.every(p=>categoryById(p.cat).items.includes(p.sub)&&sellerProfiles.some(s=>s.id===p.sellerId))'));
 assert(inspect.run('catalogCategories.every(c=>new Set(c.items).size===c.items.length)'));
@@ -47,6 +47,7 @@ for(const name of ['id','name','type','cat','sub','description','price','unit'])
 form.reset=()=>{};
 editor.document.querySelector('#offer-category').value='mode';
 editor.run(base+'\n'+read('assets/js/vendeuse.js'));
+editor.run("chooseActivity('mode')");
 profile.events.submit({preventDefault(){}});
 assert.equal(editor.run('workspace.profile.membership'),'external');
 for(const [key,value] of Object.entries({name:'Offre test',type:'product',cat:'mode',sub:'Sacs, chaussures et accessoires',description:'Description',price:'12.50'}))form.elements[key].value=value;
@@ -67,4 +68,14 @@ for(const name of ['index.html','espace-vendeuse.html']){
     assert(fs.existsSync(path.join(root,ref.split(/[?#]/)[0])),`${name}: ${ref}`);
   }
 }
-console.log('OK: 10 catégories, 66 sous-catégories, filtres, vitrines, prestations, panier, création/modification/suppression locale et fichiers publics.');
+console.log('OK: 12 catégories, 67 sous-catégories, filtres, vitrines, prestations, panier, création/modification/suppression locale et fichiers publics.');
+
+assert(inspect.run("!categoryById('alimentation').items.includes('Boissons naturelles')"));
+assert(inspect.run("categoryById('boissons').items.includes('Boissons naturelles')"));
+assert.equal(inspect.run("safePhoto('javascript:alert(1)')"),'');
+const legacy=JSON.stringify({profile:{name:'Ancienne boutique'},products:[{id:'old',name:'Jus',cat:'alimentation',sub:'Boissons naturelles',type:'product',price:5}]});
+assert.equal(shop('?boutique=local',legacy).run('market.products.find(p=>p.id===\'old\').cat'),'boissons');
+all.run("setFilter('boissons')");assert(all.document.querySelector('#seller-list').innerHTML.includes('Aucune boutique'));
+all.run("setFilter('mode')");assert(all.document.querySelector('#seller-list').innerHTML.includes('Amina'));
+editor.run("chooseActivity('boissons')");assert.equal(editor.document.querySelector('#offer-category').value,'boissons');
+console.log('OK: migration des boissons, catégories communes, sélection d’activité et sécurité des images.');

@@ -5,7 +5,7 @@ La boutique du Haut Conseil est un site à part entière, indépendant du site d
 ## Fonctionnement actuel
 
 - Treize offres fictives (produits et prestations) réparties entre onze profils, membres ou non adhérents.
-- Dix catégories et 66 sous-catégories issues des consignes, sans doublon « Boissons naturelles ». « Costumes et chemises » est conservé comme sous-catégorie distincte.
+- Dix catégories et 67 sous-catégories issues des consignes, sans doublon « Boissons naturelles ». « Costumes et chemises » est conservé comme sous-catégorie distincte.
 - Une source de données pour le catalogue et toutes les vitrines.
 - Sélection d’une marque par le paramètre `boutique` de l’URL.
 - Filtres par catégorie, sous-catégorie, type d’offre et boutique ; recherche tolérante aux accents.
@@ -26,3 +26,6 @@ La boutique du Haut Conseil est un site à part entière, indépendant du site d
 - Validation des vendeuses, commissions éventuelles, avis vérifiés et gestion effective des commandes.
 
 La démonstration statique ne contient aucun serveur de commandes, compte vendeuse ou paiement. Les brouillons sont stockés sous la clé `BOUTIQUE_HCFCED.vendeuse.v1` dans le navigateur et ne sont pas envoyés. Le contenu du projet associatif n’est pas dupliqué ici.
+
+
+Réorganisation du 7 octobre 2026 : catégories dès l’entrée vendeuse, Boissons séparées, Gastronomie et traiteur, photo par offre. Voir `docs/MODIFICATIONS_VOCAUX_2026-10-07.md` (depuis la racine). Comptes et publication non activés : hébergement à choisir.
