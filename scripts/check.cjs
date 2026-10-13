@@ -79,3 +79,22 @@ all.run("setFilter('boissons')");assert(all.document.querySelector('#seller-list
 all.run("setFilter('mode')");assert(all.document.querySelector('#seller-list').innerHTML.includes('Amina'));
 editor.run("chooseActivity('boissons')");assert.equal(editor.document.querySelector('#offer-category').value,'boissons');
 console.log('OK: migration des boissons, catégories communes, sélection d’activité et sécurité des images.');
+
+// Nouveau parcours : aucune catégorie ni offre avant adhésion.
+const onboarding=environment('',stored);
+const registrationForm=onboarding.document.querySelector('#registration-form');
+registrationForm.elements={};
+for(const key of ['contactName','name','activity','phone','email','membership','description'])registrationForm.elements[key]={value:''};
+registrationForm.reportValidity=()=>true;
+onboarding.run(base+'\n'+read('assets/js/inscription.js'));
+registrationForm.events.submit({preventDefault(){}});
+assert(onboarding.document.querySelector('#workspace-status').textContent.includes('Complétez'));
+for(const [key,value] of Object.entries({contactName:'Une vendeuse',name:'Entreprise',activity:'Couture',phone:'0102030405',email:'test@example.com',membership:'member'}))registrationForm.elements[key].value=value;
+registrationForm.events.submit({preventDefault(){}});
+assert.equal(onboarding.document.querySelector('#adhesion').hidden,false);
+assert.equal(onboarding.run('registration.products.length'),1);
+assert(onboarding.document.querySelector('#workspace-status').textContent.includes('Aucune inscription'));
+assert(!read('espace-vendeuse.html').includes('id="seller-categories"'));
+assert(!read('espace-vendeuse.html').includes('id="offer-form"'));
+assert(!read('index.html').includes('id="category-grid"'));
+console.log('OK : informations avant adhésion, aucune ouverture des catégories, anciens brouillons conservés.');
